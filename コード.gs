@@ -99,78 +99,68 @@ function getChatData() {
 
   try {
     const unreadChatThreads = GmailApp.search('in:chats is:unread', 0, 50);
-    const conversations = [];
 
-    unreadChatThreads.forEach(function(thread) {
+    for (let i = 0; i < unreadChatThreads.length; i++) {
+      const thread = unreadChatThreads[i];
       const messages = thread.getMessages();
       if (!messages || messages.length === 0) {
         Logger.log('Thread index ' + i + ' contains no messages; skipping.');
-        continue;
+        continue; // ← for 内なのでOK
       }
 
-      var latestMessage = messages[messages.length - 1];
-      var author = '';
+      const latestMessage = messages[messages.length - 1];
 
+      // 作者名の抽出
+      let author = '';
       try {
-        author = latestMessage.getFrom();
-      } catch (authorError) {
+        author = latestMessage.getFrom() || '';
+      } catch (e) {
         author = '';
       }
-
       if (author) {
-        var nameMatch = author.match(/^"?([^"<]+)"?\s*</);
+        const nameMatch = author.match(/^"?([^"<]+)"?\s*</);
         if (nameMatch) {
           author = nameMatch[1].trim();
         } else {
-          var emailMatch = author.match(/<([^>]+)>/);
-          if (emailMatch) {
-            author = emailMatch[1];
-          }
+          const emailMatch = author.match(/<([^>]+)>/);
+          if (emailMatch) author = emailMatch[1];
         }
       }
 
-      var title = thread.getFirstMessageSubject();
-      if (!title || title.trim() === '') {
-        title = author || 'チャット';
-      }
+      // タイトル
+      let title = thread.getFirstMessageSubject();
+      if (!title || title.trim() === '') title = author || 'チャット';
 
-      var preview = '';
+      // プレビュー
+      let preview = '';
       try {
-        var body = latestMessage.getPlainBody();
-        preview = body.replace(/\s+/g, ' ').trim();
-        if (preview.length > 140) {
-          preview = preview.substring(0, 140) + '…';
-        }
-      } catch (previewError) {
+        const body = latestMessage.getPlainBody();
+        preview = (body || '').replace(/\s+/g, ' ').trim();
+        if (preview.length > 140) preview = preview.substring(0, 140) + '…';
+      } catch (e) {
         preview = 'メッセージを取得できませんでした';
       }
 
-      var permalink = '';
+      // パーマリンク
+      let permalink = '';
       try {
         permalink = thread.getPermalink();
-      } catch (permalinkError) {
+      } catch (e) {
         permalink = '';
       }
 
-      const classification = (function() {
+      // DM / スペース判定
+      const classification = (function () {
         const normalizedPermalink = (permalink || '').toLowerCase();
-        if (normalizedPermalink.indexOf('/dm/') !== -1) {
-          return 'direct';
-        }
-        if (normalizedPermalink.indexOf('/room/') !== -1 || normalizedPermalink.indexOf('/space/') !== -1) {
-          return 'space';
-        }
+        if (normalizedPermalink.indexOf('/dm/') !== -1) return 'direct';
+        if (normalizedPermalink.indexOf('/room/') !== -1 || normalizedPermalink.indexOf('/space/') !== -1) return 'space';
 
         const authorAddressMatch = (latestMessage.getFrom() || '').match(/<([^>]+)>/);
         const authorAddress = authorAddressMatch ? authorAddressMatch[1] : '';
-        if (/chat\.google\.com/i.test(authorAddress)) {
-          return 'space';
-        }
+        if (/chat\.google\.com/i.test(authorAddress)) return 'space';
 
         const subject = thread.getFirstMessageSubject() || '';
-        if (/space|スペース/i.test(subject)) {
-          return 'space';
-        }
+        if (/space|スペース/i.test(subject)) return 'space';
 
         return 'direct';
       })();
@@ -188,27 +178,24 @@ function getChatData() {
       } else {
         directMessages.push(conversation);
       }
-    });
+    }
 
-    directMessages.sort(function(a, b) {
-      return b.lastUpdated - a.lastUpdated;
-    });
+    // 並び替え
+    directMessages.sort((a, b) => b.lastUpdated - a.lastUpdated);
+    spaceMessages.sort((a, b) => b.lastUpdated - a.lastUpdated);
+    const combined = directMessages.concat(spaceMessages).sort((a, b) => b.lastUpdated - a.lastUpdated);
 
-    spaceMessages.sort(function(a, b) {
-      return b.lastUpdated - a.lastUpdated;
-    });
-
-    const combined = directMessages.concat(spaceMessages).sort(function(a, b) {
-      return b.lastUpdated - a.lastUpdated;
-    });
-
-    const unreadCount = Math.max(unreadChatThreads.length, conversations.length);
-
+    // フロント側が期待する形で返す
     return {
       success: true,
-      unreadCount: unreadCount,
-      conversations: conversations.slice(0, 20)
+      totalUnread: unreadChatThreads.length,
+      directCount: directMessages.length,
+      spaceCount: spaceMessages.length,
+      directMessages: directMessages,
+      spaces: spaceMessages,
+      latestConversation: combined[0] || null
     };
+
   } catch (error) {
     Logger.log('Error fetching chat data: ' + error.toString());
     Logger.log('Chat diagnostics snapshot - direct: ' + directMessages.length + ', space: ' + spaceMessages.length);
@@ -264,28 +251,6 @@ function getTimerMarkup() {
       directMessages: [],
       spaces: [],
       latestConversation: null,
-      error: error.toString()
-    };
-  }
-}
-
-function getTimerUrl() {
-  try {
-    const baseUrl = ScriptApp.getService().getUrl();
-    if (!baseUrl) {
-      return {
-        success: false,
-        error: 'URLを解決できませんでした。'
-      };
-    }
-    return {
-      success: true,
-      url: baseUrl + '?page=timer'
-    };
-  } catch (error) {
-    Logger.log('Error resolving timer URL: ' + error.toString());
-    return {
-      success: false,
       error: error.toString()
     };
   }
