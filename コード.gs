@@ -95,7 +95,7 @@ function getGmailData() {
 
 function getChatData() {
   try {
-    const unreadChatThreads = GmailApp.search('is:unread is:chat', 0, 50);
+    const unreadChatThreads = GmailApp.search('in:chats is:unread', 0, 50);
     const conversations = [];
 
     unreadChatThreads.slice(0, 50).forEach(function(thread) {
@@ -153,9 +153,11 @@ function getChatData() {
       return b.lastUpdated - a.lastUpdated;
     });
 
+    const unreadCount = Math.max(unreadChatThreads.length, conversations.length);
+
     return {
       success: true,
-      unreadCount: unreadChatThreads.length,
+      unreadCount: unreadCount,
       conversations: conversations.slice(0, 20)
     };
   } catch (error) {
