@@ -95,11 +95,8 @@ function getGmailData() {
 
 function getChatData() {
   try {
-    const unreadChatThreads = GmailApp.search('in:chats is:unread', 0, 100);
-    Logger.log('Unread chat threads: ' + unreadChatThreads.length);
-
-    var directMessages = [];
-    var spaceMessages = [];
+    const unreadChatThreads = GmailApp.search('in:chats is:unread', 0, 50);
+    const conversations = [];
 
     unreadChatThreads.forEach(function(thread) {
       const messages = thread.getMessages();
@@ -193,17 +190,12 @@ function getChatData() {
       return b.lastUpdated - a.lastUpdated;
     });
 
-    Logger.log('Direct messages classified: ' + directMessages.length);
-    Logger.log('Space messages classified: ' + spaceMessages.length);
+    const unreadCount = Math.max(unreadChatThreads.length, conversations.length);
 
     return {
       success: true,
-      totalUnread: directMessages.length + spaceMessages.length,
-      directCount: directMessages.length,
-      spaceCount: spaceMessages.length,
-      directMessages: directMessages.slice(0, 20),
-      spaces: spaceMessages.slice(0, 20),
-      latestConversation: combined.length > 0 ? combined[0] : null
+      unreadCount: unreadCount,
+      conversations: conversations.slice(0, 20)
     };
   } catch (error) {
     Logger.log('Error fetching chat data: ' + error.toString());
@@ -235,22 +227,6 @@ function getTimerUrl() {
     };
   } catch (error) {
     Logger.log('Error resolving timer URL: ' + error.toString());
-    return {
-      success: false,
-      error: error.toString()
-    };
-  }
-}
-
-function getTimerMarkup() {
-  try {
-    const output = HtmlService.createHtmlOutputFromFile('Timer');
-    return {
-      success: true,
-      html: output.getContent()
-    };
-  } catch (error) {
-    Logger.log('Error building timer markup: ' + error.toString());
     return {
       success: false,
       error: error.toString()
