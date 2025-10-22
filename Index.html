@@ -1857,6 +1857,10 @@
       }
     }
 
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
     :root {
       color-scheme: light;
       --md-sys-color-primary: #6750A4;
@@ -1902,6 +1906,8 @@
     }
 
     body {
+      margin: 0;
+      font-family: 'Google Sans', 'Noto Sans JP', sans-serif;
       background: var(--md-sys-color-surface);
       color: var(--md-sys-color-on-surface);
       padding: 28px;
@@ -2324,6 +2330,89 @@
       box-shadow: none !important;
       padding: 8px 14px !important;
       font-weight: 600 !important;
+    }
+
+    .quick-actions-card .quick-actions-description {
+      font-size: 13px;
+      color: var(--md-sys-color-on-surface-variant);
+      line-height: 1.6;
+      margin-top: -8px;
+    }
+
+    .quick-launch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+    }
+
+    .quick-launch-btn {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px;
+      border-radius: 20px;
+      border: 1px solid var(--md-sys-color-outline-variant);
+      background: var(--md-sys-color-surface-container-low);
+      cursor: pointer;
+      text-align: left;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      overflow: hidden;
+    }
+
+    .quick-launch-btn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--nav-accent-tint, rgba(103, 80, 164, 0.14));
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      pointer-events: none;
+    }
+
+    .quick-launch-btn:hover {
+      transform: translateY(-1px);
+      border-color: var(--md-sys-color-primary);
+      box-shadow: 0 16px 36px rgba(17, 17, 26, 0.14);
+    }
+
+    .quick-launch-btn:hover::after {
+      opacity: 1;
+    }
+
+    .quick-launch-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 16px;
+      background: var(--md-sys-color-surface);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .quick-launch-icon img {
+      width: 28px;
+      height: 28px;
+      display: block;
+    }
+
+    .quick-launch-label {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .quick-launch-title {
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--md-sys-color-on-surface);
+    }
+
+    .quick-launch-subtitle {
+      font-size: 12px;
+      color: var(--md-sys-color-on-surface-variant);
+      line-height: 1.5;
     }
 
     .links-actions button:hover {
@@ -2808,6 +2897,47 @@
       </div>
 
       <div class="content-column utility-column">
+        <div class="info-card quick-actions-card">
+          <h2><span class="material-icons">rocket_launch</span>ワークスペースクイックランチャー</h2>
+          <p class="quick-actions-description">頻繁に使う Google Workspace アプリをワンクリックで起動できます。新規作成や会議の開始をスムーズに行いましょう。</p>
+          <div class="quick-launch-grid" id="quickLaunchGrid">
+            <button type="button" class="quick-launch-btn" data-url="https://docs.new" aria-label="Google ドキュメントを作成">
+              <span class="quick-launch-icon" aria-hidden="true"><img src="https://www.gstatic.com/images/branding/product/1x/docs_2020q4_48dp.png" alt=""></span>
+              <span class="quick-launch-label">
+                <span class="quick-launch-title">ドキュメント</span>
+                <span class="quick-launch-subtitle">空白のドキュメントを作成</span>
+              </span>
+            </button>
+            <button type="button" class="quick-launch-btn" data-url="https://sheets.new" aria-label="Google スプレッドシートを作成">
+              <span class="quick-launch-icon" aria-hidden="true"><img src="https://www.gstatic.com/images/branding/product/1x/sheets_2020q4_48dp.png" alt=""></span>
+              <span class="quick-launch-label">
+                <span class="quick-launch-title">スプレッドシート</span>
+                <span class="quick-launch-subtitle">チームで使えるシートを開始</span>
+              </span>
+            </button>
+            <button type="button" class="quick-launch-btn" data-url="https://slides.new" aria-label="Google スライドを作成">
+              <span class="quick-launch-icon" aria-hidden="true"><img src="https://www.gstatic.com/images/branding/product/1x/slides_2020q4_48dp.png" alt=""></span>
+              <span class="quick-launch-label">
+                <span class="quick-launch-title">スライド</span>
+                <span class="quick-launch-subtitle">プレゼン資料をすぐに準備</span>
+              </span>
+            </button>
+            <button type="button" class="quick-launch-btn" data-url="https://meet.new" aria-label="Google Meet を開始">
+              <span class="quick-launch-icon" aria-hidden="true"><img src="https://www.gstatic.com/images/branding/product/1x/meet_2020q4_48dp.png" alt=""></span>
+              <span class="quick-launch-label">
+                <span class="quick-launch-title">Meet</span>
+                <span class="quick-launch-subtitle">ビデオ会議を今すぐ開始</span>
+              </span>
+            </button>
+            <button type="button" class="quick-launch-btn" data-url="https://keep.google.com/" aria-label="Google Keep を開く">
+              <span class="quick-launch-icon" aria-hidden="true"><img src="https://www.gstatic.com/images/branding/product/1x/keep_2020q4_48dp.png" alt=""></span>
+              <span class="quick-launch-label">
+                <span class="quick-launch-title">Keep</span>
+                <span class="quick-launch-subtitle">アイデアやメモを整理</span>
+              </span>
+            </button>
+          </div>
+        </div>
         <div class="info-card calendar-card">
           <h2><span class="material-icons">event_note</span>カレンダー</h2>
           <div class="calendar-widget">
@@ -3651,9 +3781,35 @@
         .getChatData();
     }
 
+    function initializeQuickLaunch() {
+      const launchGrid = document.getElementById('quickLaunchGrid');
+      if (!launchGrid) {
+        return;
+      }
+
+      launchGrid.addEventListener('click', function(event) {
+        const origin = event.target;
+        const target = origin && typeof origin.closest === 'function' ? origin.closest('.quick-launch-btn') : null;
+        if (!target) {
+          return;
+        }
+
+        const destination = target.getAttribute('data-url');
+        if (!destination) {
+          return;
+        }
+
+        const opened = window.open(destination, '_blank', 'noopener');
+        if (!opened) {
+          alert('ポップアップがブロックされました。別タブでの起動を許可してください。');
+        }
+      });
+    }
+
     loadGmailData();
     loadChatData();
     updateSummaryDashboard();
+    initializeQuickLaunch();
 
     emailRefreshInterval = setInterval(loadGmailData, 30000);
     chatRefreshInterval = setInterval(loadChatData, 30000);
