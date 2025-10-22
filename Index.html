@@ -4,8 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NexusHub - 統合ワークスペースポータル</title>
-  <link rel="icon" type="image/png" href="https://img.icons8.com/fluency/96/hub.png">
+  <link rel="icon" type="image/png" href="https://www.gstatic.com/images/branding/product/2x/googleg_48dp.png">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <style>
     * {
@@ -2180,9 +2181,21 @@
     }
 
     .summary-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
       background: var(--md-sys-color-surface-container-high);
       color: var(--md-sys-color-primary);
       border-radius: 16px;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.24);
+    }
+
+    .summary-icon .material-symbols-rounded {
+      font-size: 24px;
+      font-variation-settings: 'FILL' 1;
+      color: inherit;
     }
 
     .summary-icon.event {
@@ -2387,77 +2400,180 @@
       color: var(--md-sys-color-primary);
     }
 
-    .chat-list {
-      list-style: none;
+    .chat-board {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .chat-columns {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+    }
+
+    .chat-column {
       display: flex;
       flex-direction: column;
       gap: 16px;
-    }
-
-    #chatList {
-      flex: 1;
-      min-height: 0;
-      overflow-y: auto;
-    }
-
-    .chat-item {
+      padding: 18px;
       background: var(--md-sys-color-surface-container-low);
       border: 1px solid var(--md-sys-color-outline-variant);
+      border-radius: 24px;
+      min-height: 240px;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+    }
+
+    .chat-column-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      color: var(--md-sys-color-on-surface);
+    }
+
+    .chat-column-header .material-symbols-rounded {
+      font-variation-settings: 'FILL' 1;
+      font-size: 22px;
+      color: var(--md-sys-color-primary);
+    }
+
+    .count-chip {
+      margin-left: auto;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(103, 80, 164, 0.12);
+      color: var(--md-sys-color-primary);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .chat-stream {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      overflow-y: auto;
+      max-height: 340px;
+      padding-right: 2px;
+    }
+
+    .chat-stream::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .chat-stream::-webkit-scrollbar-thumb {
+      background: rgba(103, 80, 164, 0.35);
+      border-radius: 999px;
+    }
+
+    .chat-entry {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      background: var(--md-sys-color-surface);
+      border: 1px solid transparent;
       border-radius: 20px;
-      padding: 16px;
-      transition: background 0.2s ease, border 0.2s ease, transform 0.2s ease;
-      cursor: pointer;
+      padding: 14px 16px;
+      box-shadow: 0 8px 20px rgba(17, 17, 26, 0.08);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border 0.2s ease;
     }
 
-    .chat-item:hover {
-      background: var(--md-sys-color-surface-container);
+    .chat-entry:hover {
+      transform: translateY(-2px);
       border-color: var(--md-sys-color-outline);
-      transform: translateY(-1px);
+      box-shadow: 0 18px 32px rgba(17, 17, 26, 0.18);
     }
 
-    .chat-title {
+    .chat-entry-title {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
-      font-weight: 600;
+      gap: 10px;
+      font-weight: 700;
       color: var(--md-sys-color-on-surface);
-      margin-bottom: 8px;
     }
 
-    .chat-snippet {
+    .chat-entry-snippet {
       color: var(--md-sys-color-on-surface-variant);
       font-size: 13px;
       line-height: 1.6;
     }
 
-    .chat-meta {
-      margin-top: 12px;
+    .chat-entry-meta {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      color: var(--md-sys-color-on-surface-variant);
       font-size: 12px;
+      color: var(--md-sys-color-on-surface-variant);
     }
 
-    .chat-open-btn {
-      background: none;
-      border: 1px solid var(--md-sys-color-outline-variant);
-      border-radius: 999px;
-      padding: 6px 12px;
-      color: var(--md-sys-color-primary);
-      font-weight: 600;
-      text-decoration: none;
+    .chat-entry-link {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      cursor: pointer;
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--md-sys-color-outline-variant);
+      color: var(--md-sys-color-primary);
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.2s ease, border 0.2s ease, color 0.2s ease;
     }
 
-    .chat-open-btn:hover {
+    .chat-entry-link:hover {
       background: var(--md-sys-color-primary);
-      color: var(--md-sys-color-on-primary);
       border-color: var(--md-sys-color-primary);
+      color: var(--md-sys-color-on-primary);
+    }
+
+    .chat-empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 28px;
+      border-radius: 24px;
+      border: 1px dashed var(--md-sys-color-outline-variant);
+      background: var(--md-sys-color-surface-container-low);
+      color: var(--md-sys-color-on-surface-variant);
+      text-align: center;
+    }
+
+    .chat-empty-state .material-symbols-rounded {
+      font-variation-settings: 'FILL' 0;
+      font-size: 28px;
+      color: var(--md-sys-color-secondary);
+    }
+
+    .assist-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border-radius: 999px;
+      border: 1px solid var(--md-sys-color-outline-variant);
+      background: var(--md-sys-color-surface);
+      color: var(--md-sys-color-primary);
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s ease, border 0.2s ease, color 0.2s ease;
+    }
+
+    .assist-btn:hover {
+      background: var(--md-sys-color-primary);
+      border-color: var(--md-sys-color-primary);
+      color: var(--md-sys-color-on-primary);
+    }
+
+    .chat-column-empty {
+      border: 1px dashed var(--md-sys-color-outline-variant);
+      border-radius: 18px;
+      padding: 18px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--md-sys-color-on-surface-variant);
+      background: var(--md-sys-color-surface);
     }
 
     footer {
@@ -2524,29 +2640,29 @@
         </h1>
         <div class="nav-buttons">
           <a href="https://gemini.google.com" target="_blank" class="nav-btn gemini">
-            <span class="material-icons">psychology</span>
+            <img class="nav-icon" src="https://www.gstatic.com/images/branding/product/2x/gemini_color_48dp.png" alt="Gemini" loading="lazy">
             Gemini
           </a>
           <a href="https://mail.google.com" target="_blank" class="nav-btn gmail" id="gmailBtn">
             <span class="badge" id="unreadBadge" style="display: none;">0</span>
-            <span class="material-icons">email</span>
+            <img class="nav-icon" src="https://www.gstatic.com/images/branding/product/2x/gmail_48dp.png" alt="Gmail" loading="lazy">
             Gmail
           </a>
           <a href="https://chat.google.com" target="_blank" class="nav-btn chat">
             <span class="badge" id="chatBadge" style="display: none;">0</span>
-            <span class="material-icons">chat</span>
+            <img class="nav-icon" src="https://www.gstatic.com/images/branding/product/2x/chat_2020q4_48dp.png" alt="Chat" loading="lazy">
             Chat
           </a>
           <a href="https://calendar.google.com" target="_blank" class="nav-btn calendar">
-            <span class="material-icons">event</span>
+            <img class="nav-icon" src="https://www.gstatic.com/images/branding/product/2x/calendar_48dp.png" alt="Calendar" loading="lazy">
             Calendar
           </a>
           <a href="https://drive.google.com" target="_blank" class="nav-btn drive">
-            <span class="material-icons">cloud</span>
+            <img class="nav-icon" src="https://www.gstatic.com/images/branding/product/2x/drive_2020q4_48dp.png" alt="Drive" loading="lazy">
             Drive
           </a>
           <button type="button" class="nav-btn timer" onclick="openTimerWindow()">
-            <span class="material-icons">timer</span>
+            <span class="material-symbols-rounded">timer</span>
             タイマー
           </button>
         </div>
@@ -2568,7 +2684,7 @@
 
     <div class="summary-dashboard">
       <div class="summary-item" id="gmailSummary">
-        <div class="summary-icon email">📧</div>
+        <div class="summary-icon email"><span class="material-symbols-rounded">mail</span></div>
         <div class="summary-content">
           <div class="summary-label">未読メール</div>
           <div class="summary-value" id="summaryUnreadCount">
@@ -2580,7 +2696,7 @@
       </div>
 
       <div class="summary-item clickable" id="chatSummary" onclick="scrollToChat()">
-        <div class="summary-icon chat">💬</div>
+        <div class="summary-icon chat"><span class="material-symbols-rounded">forum</span></div>
         <div class="summary-content">
           <div class="summary-label">未読チャット</div>
           <div class="summary-value" id="summaryChatCount">
@@ -2588,11 +2704,12 @@
             <span class="summary-unit">件</span>
           </div>
           <div class="summary-subtext" id="summaryChatLatest"></div>
+          <div class="summary-meta" id="summaryChatBreakdown"></div>
         </div>
       </div>
 
       <div class="summary-item clickable" id="todayEventSummary" onclick="showTodayEvents()">
-        <div class="summary-icon event">📅</div>
+        <div class="summary-icon event"><span class="material-symbols-rounded">event</span></div>
         <div class="summary-content">
           <div class="summary-label">本日の予定</div>
           <div class="summary-value" id="summaryEventCount">
@@ -2603,7 +2720,7 @@
       </div>
 
       <div class="summary-item clickable" id="nextEventSummary" onclick="showNextEventDetail()">
-        <div class="summary-icon next">⏰</div>
+        <div class="summary-icon next"><span class="material-symbols-rounded">schedule</span></div>
         <div class="summary-content">
           <div class="summary-label">次の予定</div>
           <div class="summary-value" id="summaryNextEvent">予定なし</div>
@@ -2623,8 +2740,36 @@
 
         <div class="info-card chat-card" id="chatCard">
           <h2><span class="material-icons">forum</span>未読チャット</h2>
-          <div id="chatList">
-            <div class="loading-spinner"><div class="spinner"></div><p>読み込み中...</p></div>
+          <div class="chat-board" id="chatList">
+            <div class="chat-columns">
+              <section class="chat-column" aria-labelledby="chatDmHeading">
+                <div class="chat-column-header" id="chatDmHeading">
+                  <span class="material-symbols-rounded">person</span>
+                  <span>ダイレクトメッセージ</span>
+                  <span class="count-chip" id="chatDmCount">0</span>
+                </div>
+                <div class="chat-stream" id="chatDmList">
+                  <div class="loading-spinner"><div class="spinner"></div><p>読み込み中...</p></div>
+                </div>
+              </section>
+              <section class="chat-column" aria-labelledby="chatSpaceHeading">
+                <div class="chat-column-header" id="chatSpaceHeading">
+                  <span class="material-symbols-rounded">groups</span>
+                  <span>スペース</span>
+                  <span class="count-chip" id="chatSpaceCount">0</span>
+                </div>
+                <div class="chat-stream" id="chatSpaceList">
+                  <div class="loading-spinner"><div class="spinner"></div><p>読み込み中...</p></div>
+                </div>
+              </section>
+            </div>
+            <div class="chat-empty-state" id="chatEmptyState" style="display: none;">
+              <span class="material-symbols-rounded">mark_chat_read</span>
+              <p>最新の未読チャットはありません。</p>
+              <button class="assist-btn" type="button" onclick="window.open('https://chat.google.com', '_blank')">
+                <span class="material-symbols-rounded">open_in_new</span>Chatを開く
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -3324,21 +3469,34 @@
     function loadChatData() {
       google.script.run
         .withSuccessHandler(function(chatData) {
-          const chatList = document.getElementById('chatList');
           const summaryCountElement = document.getElementById('summaryChatCount');
           const summaryLatestElement = document.getElementById('summaryChatLatest');
+          const breakdownElement = document.getElementById('summaryChatBreakdown');
+          const chatBadge = document.getElementById('chatBadge');
+          const dmCountLabel = document.getElementById('chatDmCount');
+          const spaceCountLabel = document.getElementById('chatSpaceCount');
+          const dmList = document.getElementById('chatDmList');
+          const spaceList = document.getElementById('chatSpaceList');
+          const emptyState = document.getElementById('chatEmptyState');
+
+          const totalUnread = chatData && typeof chatData.totalUnread === 'number' ? chatData.totalUnread : 0;
+          const directCount = chatData && typeof chatData.directCount === 'number' ? chatData.directCount : 0;
+          const spaceCount = chatData && typeof chatData.spaceCount === 'number' ? chatData.spaceCount : 0;
 
           if (summaryCountElement && summaryCountElement.querySelector) {
             const spanElement = summaryCountElement.querySelector('span');
             if (spanElement) {
-              spanElement.textContent = chatData && typeof chatData.unreadCount === 'number' ? chatData.unreadCount : 0;
+              spanElement.textContent = totalUnread;
             }
           }
 
-          const chatBadge = document.getElementById('chatBadge');
+          if (breakdownElement) {
+            breakdownElement.innerHTML = '<span>DM ' + directCount + '件</span><span>スペース ' + spaceCount + '件</span>';
+          }
+
           if (chatBadge) {
-            if (chatData && chatData.unreadCount > 0) {
-              chatBadge.textContent = chatData.unreadCount > 99 ? '99+' : chatData.unreadCount;
+            if (totalUnread > 0) {
+              chatBadge.textContent = totalUnread > 99 ? '99+' : totalUnread;
               chatBadge.style.display = 'block';
             } else {
               chatBadge.style.display = 'none';
@@ -3346,21 +3504,22 @@
           }
 
           if (!chatData || !chatData.success) {
-            if (chatList) {
-              chatList.innerHTML = '<p style="text-align: center; color: #B3261E; padding: 20px;">チャット情報の取得に失敗しました</p>';
-            }
             if (summaryLatestElement) {
               summaryLatestElement.textContent = 'チャット情報の取得に失敗しました';
             }
-            return;
-          }
-
-          if (chatData.unreadCount === 0) {
-            if (summaryLatestElement) {
-              summaryLatestElement.textContent = '最新の未読はありません';
+            if (breakdownElement) {
+              breakdownElement.innerHTML = '<span>DM 0件</span><span>スペース 0件</span>';
             }
-            if (chatList) {
-              chatList.innerHTML = '<div class="no-unread-message"><span class="material-icons">mark_chat_read</span><p>未読チャットはありません</p></div>';
+            if (dmCountLabel) dmCountLabel.textContent = '0';
+            if (spaceCountLabel) spaceCountLabel.textContent = '0';
+            if (dmList) dmList.innerHTML = '<div class="chat-column-empty">チャット情報の取得に失敗しました</div>';
+            if (spaceList) spaceList.innerHTML = '<div class="chat-column-empty">チャット情報の取得に失敗しました</div>';
+            if (emptyState) {
+              emptyState.style.display = 'flex';
+              const message = emptyState.querySelector('p');
+              if (message) {
+                message.textContent = 'チャット情報の取得に失敗しました。';
+              }
             }
             return;
           }
@@ -3380,57 +3539,104 @@
             summaryLatestElement.textContent = '最新: ' + truncateText(firstChat.title || firstChat.author || 'チャット', 24);
           }
 
-          if (!chatList) return;
+          if (summaryLatestElement) {
+            if (chatData.latestConversation) {
+              summaryLatestElement.textContent = '最新: ' + truncateText(chatData.latestConversation.title || chatData.latestConversation.author || 'チャット', 24);
+            } else {
+              summaryLatestElement.textContent = '最新の未読はありません';
+            }
+          }
 
-          if (chatData.conversations && chatData.conversations.length > 0) {
-            let chatHTML = '<ul class="chat-list">';
+          const renderChatEntries = function(container, items, emptyMessage) {
+            if (!container) return;
+            if (!items || items.length === 0) {
+              container.innerHTML = '<div class="chat-column-empty">' + emptyMessage + '</div>';
+              return;
+            }
 
-            chatData.conversations.forEach(function(conversation) {
+            let entries = '';
+            items.forEach(function(conversation) {
               const lastUpdated = new Date(conversation.lastUpdated);
               const relativeTime = formatRelativeTime(lastUpdated);
               const title = escapeHtml(conversation.title || 'チャット');
               const author = escapeHtml(conversation.author || 'メンバー');
               const snippet = escapeHtml(conversation.preview || 'メッセージは表示できません');
-              const permalink = conversation.permalink ? conversation.permalink : '';
+              const permalink = conversation.permalink ? encodeURI(conversation.permalink) : '';
 
-              chatHTML += '<li class="chat-item">';
-              chatHTML += '<div class="chat-title">';
-              chatHTML += '<span>' + title + '</span>';
-              chatHTML += '<span>' + relativeTime + '</span>';
-              chatHTML += '</div>';
-              chatHTML += '<div class="chat-snippet">' + snippet + '</div>';
-              chatHTML += '<div class="chat-meta">';
-              chatHTML += '<span>' + author + '</span>';
+              entries += '<article class="chat-entry">';
+              entries += '<div class="chat-entry-title"><span>' + title + '</span><span>' + relativeTime + '</span></div>';
+              entries += '<div class="chat-entry-snippet">' + snippet + '</div>';
+              entries += '<div class="chat-entry-meta">';
+              entries += '<span>' + author + '</span>';
               if (permalink) {
-                chatHTML += '<a class="chat-open-btn" href="' + encodeURI(permalink) + '" target="_blank" rel="noopener">Chatを開く</a>';
+                entries += '<a class="chat-entry-link" href="' + permalink + '" target="_blank" rel="noopener">Chatを開く</a>';
+              } else {
+                entries += '<span></span>';
               }
-              chatHTML += '</div>';
-              chatHTML += '</li>';
+              entries += '</div>';
+              entries += '</article>';
             });
 
-            chatHTML += '</ul>';
-            chatList.innerHTML = chatHTML;
-          } else {
-            chatList.innerHTML = '<div class="no-unread-message"><span class="material-icons">chat_bubble_outline</span><p>チャット情報を表示できません</p></div>';
+            container.innerHTML = entries;
+          };
+
+          if (totalUnread === 0) {
+            if (emptyState) {
+              emptyState.style.display = 'flex';
+              const message = emptyState.querySelector('p');
+              if (message) {
+                message.textContent = '最新の未読チャットはありません。';
+              }
+            }
+            renderChatEntries(dmList, [], '未読のダイレクトメッセージはありません');
+            renderChatEntries(spaceList, [], '未読のスペースはありません');
+            return;
           }
+
+          if (emptyState) {
+            emptyState.style.display = 'none';
+          }
+
+          renderChatEntries(dmList, chatData.directMessages, '未読のダイレクトメッセージはありません');
+          renderChatEntries(spaceList, chatData.spaces, '未読のスペースはありません');
         })
         .withFailureHandler(function() {
-          const chatList = document.getElementById('chatList');
-          if (chatList) {
-            chatList.innerHTML = '<p style="text-align: center; color: #B3261E; padding: 20px;">チャット情報の取得に失敗しました</p>';
-          }
-          const summaryLatestElement = document.getElementById('summaryChatLatest');
-          if (summaryLatestElement) {
-            summaryLatestElement.textContent = 'チャット情報の取得に失敗しました';
-          }
           const summaryCountElement = document.getElementById('summaryChatCount');
+          const summaryLatestElement = document.getElementById('summaryChatLatest');
+          const breakdownElement = document.getElementById('summaryChatBreakdown');
+          const dmList = document.getElementById('chatDmList');
+          const spaceList = document.getElementById('chatSpaceList');
+          const dmCountLabel = document.getElementById('chatDmCount');
+          const spaceCountLabel = document.getElementById('chatSpaceCount');
+          const emptyState = document.getElementById('chatEmptyState');
+          const chatBadge = document.getElementById('chatBadge');
+
           if (summaryCountElement && summaryCountElement.querySelector) {
             const spanElement = summaryCountElement.querySelector('span');
             if (spanElement) {
               spanElement.textContent = 0;
             }
           }
-          const chatBadge = document.getElementById('chatBadge');
+
+          if (summaryLatestElement) {
+            summaryLatestElement.textContent = 'チャット情報の取得に失敗しました';
+          }
+
+          if (breakdownElement) {
+            breakdownElement.innerHTML = '<span>DM 0件</span><span>スペース 0件</span>';
+          }
+
+          if (dmCountLabel) dmCountLabel.textContent = '0';
+          if (spaceCountLabel) spaceCountLabel.textContent = '0';
+          if (dmList) dmList.innerHTML = '<div class="chat-column-empty">チャット情報の取得に失敗しました</div>';
+          if (spaceList) spaceList.innerHTML = '<div class="chat-column-empty">チャット情報の取得に失敗しました</div>';
+          if (emptyState) {
+            emptyState.style.display = 'flex';
+            const message = emptyState.querySelector('p');
+            if (message) {
+              message.textContent = 'チャット情報の取得に失敗しました。';
+            }
+          }
           if (chatBadge) {
             chatBadge.style.display = 'none';
           }
