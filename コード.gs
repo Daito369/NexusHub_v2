@@ -4,7 +4,7 @@ function doGet(e) {
 
   return HtmlService.createHtmlOutputFromFile(templateName)
     .setTitle('NexusHub - 統合ワークスペースポータル')
-    .setFaviconUrl('https://img.icons8.com/fluency/96/hub.png');
+    .setFaviconUrl('https://www.gstatic.com/images/branding/product/2x/googleg_48dp.png');
 }
 
 function getUserInfo() {
@@ -95,10 +95,11 @@ function getGmailData() {
 
 function getChatData() {
   try {
-    const unreadChatThreads = GmailApp.search('is:unread is:chat', 0, 50);
-    const conversations = [];
+    const unreadChatThreads = GmailApp.search('in:chats is:unread', 0, 100);
+    const directMessages = [];
+    const spaceMessages = [];
 
-    unreadChatThreads.slice(0, 50).forEach(function(thread) {
+    unreadChatThreads.forEach(function(thread) {
       const messages = thread.getMessages();
       if (!messages || messages.length === 0) {
         return;
@@ -126,8 +127,8 @@ function getChatData() {
       try {
         const body = latestMessage.getPlainBody();
         preview = body.replace(/\s+/g, ' ').trim();
-        if (preview.length > 120) {
-          preview = preview.substring(0, 120) + '…';
+        if (preview.length > 140) {
+          preview = preview.substring(0, 140) + '…';
         }
       } catch (err) {
         preview = 'メッセージを取得できませんでした';
@@ -140,30 +141,97 @@ function getChatData() {
         permalink = '';
       }
 
-      conversations.push({
+      const classification = (function() {
+        const normalizedPermalink = (permalink || '').toLowerCase();
+        if (normalizedPermalink.indexOf('/dm/') !== -1) {
+          return 'direct';
+        }
+        if (normalizedPermalink.indexOf('/room/') !== -1 || normalizedPermalink.indexOf('/space/') !== -1) {
+          return 'space';
+        }
+
+        const authorAddressMatch = (latestMessage.getFrom() || '').match(/<([^>]+)>/);
+        const authorAddress = authorAddressMatch ? authorAddressMatch[1] : '';
+        if (/chat\.google\.com/i.test(authorAddress)) {
+          return 'space';
+        }
+
+        const subject = thread.getFirstMessageSubject() || '';
+        if (/space|スペース/i.test(subject)) {
+          return 'space';
+        }
+
+        return 'direct';
+      })();
+
+      const conversation = {
         title: title || 'チャット',
         author: author || 'メンバー',
         preview: preview,
         lastUpdated: latestMessage.getDate().getTime(),
         permalink: permalink
-      });
+      };
+
+      if (classification === 'space') {
+        spaceMessages.push(conversation);
+      } else {
+        directMessages.push(conversation);
+      }
     });
 
-    conversations.sort(function(a, b) {
+    directMessages.sort(function(a, b) {
+      return b.lastUpdated - a.lastUpdated;
+    });
+
+    spaceMessages.sort(function(a, b) {
+      return b.lastUpdated - a.lastUpdated;
+    });
+
+    const combined = directMessages.concat(spaceMessages).sort(function(a, b) {
       return b.lastUpdated - a.lastUpdated;
     });
 
     return {
       success: true,
-      unreadCount: unreadChatThreads.length,
-      conversations: conversations.slice(0, 20)
+      totalUnread: directMessages.length + spaceMessages.length,
+      directCount: directMessages.length,
+      spaceCount: spaceMessages.length,
+      directMessages: directMessages.slice(0, 20),
+      spaces: spaceMessages.slice(0, 20),
+      latestConversation: combined.length > 0 ? combined[0] : null
     };
   } catch (error) {
     Logger.log('Error fetching chat data: ' + error.toString());
     return {
       success: false,
-      unreadCount: 0,
-      conversations: [],
+      totalUnread: 0,
+      directCount: 0,
+      spaceCount: 0,
+      directMessages: [],
+      spaces: [],
+      latestConversation: null,
+      error: error.toString()
+    };
+  }
+}
+
+function getTimerUrl() {
+  try {
+    const baseUrl = ScriptApp.getService().getUrl();
+    if (!baseUrl) {
+      return {
+        success: false,
+        error: 'URLを解決できませんでした。'
+      };
+    }
+    return {
+      success: true,
+      url: baseUrl + '?page=timer'
+    };
+  } catch (error) {
+    Logger.log('Error resolving timer URL: ' + error.toString());
+    return {
+      success: false,
       error: error.toString()
     };
   }

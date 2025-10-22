@@ -4,8 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NexusHub - 統合ワークスペースポータル</title>
-  <link rel="icon" type="image/png" href="https://img.icons8.com/fluency/96/hub.png">
+  <link rel="icon" type="image/png" href="https://www.gstatic.com/images/branding/product/2x/googleg_48dp.png">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <style>
     * {
@@ -1859,116 +1860,330 @@
     :root {
       color-scheme: light;
       --md-sys-color-primary: #6750A4;
-      --md-sys-color-on-primary: #ffffff;
+      --md-sys-color-on-primary: #FFFFFF;
       --md-sys-color-secondary: #625B71;
-      --md-sys-color-on-secondary: #ffffff;
+      --md-sys-color-on-secondary: #FFFFFF;
       --md-sys-color-tertiary: #7D5260;
-      --md-sys-color-on-tertiary: #ffffff;
-      --md-sys-color-surface: #fef7ff;
-      --md-sys-color-surface-container-low: #f7f2fa;
-      --md-sys-color-surface-container: #f3edf7;
-      --md-sys-color-surface-container-high: #ece6f0;
-      --md-sys-color-outline: #79747e;
-      --md-sys-color-outline-variant: #cac4d0;
-      --md-sys-color-on-surface: #1d1b20;
-      --md-sys-color-on-surface-variant: #49454f;
+      --md-sys-color-on-tertiary: #FFFFFF;
+      --md-sys-color-surface: #FEF7FF;
+      --md-sys-color-surface-container-low: #F7F2FA;
+      --md-sys-color-surface-container: #F3EDF7;
+      --md-sys-color-surface-container-high: #ECE6F0;
+      --md-sys-color-surface-container-highest: #E6E0E9;
+      --md-sys-color-outline: #79747E;
+      --md-sys-color-outline-variant: #CAC4D0;
+      --md-sys-color-on-surface: #1D1B20;
+      --md-sys-color-on-surface-variant: #49454F;
       --md-sys-color-shadow: rgba(29, 27, 32, 0.08);
       --md-sys-color-error: #B3261E;
+      --md-sys-color-success: #2E7D32;
+    }
+
+    body[data-theme="dark"] {
+      color-scheme: dark;
+      --md-sys-color-primary: #D0BCFF;
+      --md-sys-color-on-primary: #371E73;
+      --md-sys-color-secondary: #CCC2DC;
+      --md-sys-color-on-secondary: #332D41;
+      --md-sys-color-tertiary: #EFB8C8;
+      --md-sys-color-on-tertiary: #492532;
+      --md-sys-color-surface: #141218;
+      --md-sys-color-surface-container-low: #1D1B20;
+      --md-sys-color-surface-container: #211F26;
+      --md-sys-color-surface-container-high: #29282F;
+      --md-sys-color-surface-container-highest: #312F37;
+      --md-sys-color-outline: #938F99;
+      --md-sys-color-outline-variant: #49454F;
+      --md-sys-color-on-surface: #E6E0E9;
+      --md-sys-color-on-surface-variant: #CAC4D0;
+      --md-sys-color-shadow: rgba(0, 0, 0, 0.6);
+      --md-sys-color-error: #F2B8B5;
+      --md-sys-color-success: #81C995;
     }
 
     body {
       background: var(--md-sys-color-surface);
       color: var(--md-sys-color-on-surface);
-      padding: 24px;
-      padding-bottom: 80px;
-      transition: background 0.3s ease;
+      padding: 28px;
+      padding-bottom: 88px;
+      transition: background 0.3s ease, color 0.3s ease;
+      min-height: 100vh;
     }
 
     header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 24px;
       background: var(--md-sys-color-surface-container);
       border: 1px solid var(--md-sys-color-outline-variant);
-      box-shadow: 0 12px 36px var(--md-sys-color-shadow);
-      backdrop-filter: blur(16px);
+      border-radius: 32px;
+      padding: 22px 32px;
+      box-shadow: 0 18px 48px var(--md-sys-color-shadow);
     }
 
-    h1 {
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      flex-wrap: wrap;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 24px;
+      font-weight: 700;
       color: var(--md-sys-color-on-surface);
-      font-size: 26px;
-      letter-spacing: 0.02em;
     }
 
-    .logo {
-      color: var(--md-sys-color-primary);
-      background: none;
-      -webkit-text-fill-color: var(--md-sys-color-primary);
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .brand-name {
+      font-size: 26px;
+      line-height: 1.1;
+      letter-spacing: 0.01em;
+    }
+
+    .brand-tagline {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--md-sys-color-on-surface-variant);
+    }
+
+    .brand-logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: conic-gradient(#4285F4 0deg 90deg, #34A853 90deg 180deg, #FBBC05 180deg 270deg, #EA4335 270deg 360deg);
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.35);
+    }
+
+    .brand-logo::after {
+      content: 'G';
+      font-weight: 800;
+      font-size: 22px;
+      color: #202124;
+      font-family: 'Google Sans', 'Noto Sans JP', sans-serif;
     }
 
     .nav-buttons {
+      display: flex;
+      align-items: center;
       gap: 12px;
+      flex-wrap: wrap;
     }
 
     .nav-btn {
+      position: relative;
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      background: var(--md-sys-color-primary);
-      color: var(--md-sys-color-on-primary);
-      border: none;
-      border-radius: 999px;
-      padding: 10px 18px;
+      gap: 10px;
+      background: var(--md-sys-color-surface);
+      color: var(--md-sys-color-on-surface);
+      border-radius: 18px;
+      border: 1px solid var(--md-sys-color-outline-variant);
+      padding: 12px 18px 12px 28px;
       font-size: 14px;
       font-weight: 600;
       cursor: pointer;
       text-decoration: none;
-      box-shadow: 0 6px 18px var(--md-sys-color-shadow);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 8px 24px rgba(17, 17, 26, 0.08);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      --nav-accent: var(--md-sys-color-primary);
+    }
+
+    .nav-btn::before {
+      content: '';
+      position: absolute;
+      left: 10px;
+      top: 10px;
+      bottom: 10px;
+      width: 4px;
+      border-radius: 999px;
+      background: var(--nav-accent);
+    }
+
+    .nav-btn .material-icons,
+    .nav-btn .material-symbols-rounded {
+      font-size: 20px;
+      color: var(--nav-accent);
+    }
+
+    .material-symbols-rounded {
+      font-family: 'Material Symbols Rounded';
+      font-weight: normal;
+      font-style: normal;
+      font-size: 20px;
+      line-height: 1;
+      letter-spacing: normal;
+      text-transform: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      vertical-align: middle;
+      -webkit-font-feature-settings: 'liga';
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .nav-btn .nav-icon {
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      box-shadow: 0 2px 6px rgba(32, 33, 36, 0.16);
+    }
+
+    body[data-theme="dark"] .nav-btn .nav-icon {
+      box-shadow: none;
+      filter: brightness(1.1);
     }
 
     .nav-btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 12px 28px rgba(103, 80, 164, 0.24);
+      border-color: var(--nav-accent);
+      box-shadow: 0 16px 32px rgba(17, 17, 26, 0.16);
     }
 
     .nav-btn:focus-visible {
-      outline: 3px solid rgba(103, 80, 164, 0.3);
+      outline: 3px solid rgba(103, 80, 164, 0.35);
       outline-offset: 2px;
     }
 
     .nav-btn.gemini {
-      background: var(--md-sys-color-tertiary);
+      --nav-accent: var(--md-sys-color-tertiary);
+      background: var(--md-sys-color-surface);
     }
 
     .nav-btn.gmail {
-      background: var(--md-sys-color-primary);
+      --nav-accent: #D93025;
+      background: var(--md-sys-color-surface);
     }
 
     .nav-btn.chat {
-      background: var(--md-sys-color-secondary);
+      --nav-accent: #188038;
+      background: var(--md-sys-color-surface);
     }
 
     .nav-btn.calendar {
-      background: #386A20;
+      --nav-accent: #1B6EF3;
+      background: var(--md-sys-color-surface);
     }
 
     .nav-btn.drive {
-      background: #006876;
+      --nav-accent: #0B806A;
+      background: var(--md-sys-color-surface);
     }
 
     .nav-btn.timer {
-      background: var(--md-sys-color-surface-container-high);
-      color: var(--md-sys-color-primary);
-      border: 1px solid var(--md-sys-color-outline-variant);
+      --nav-accent: var(--md-sys-color-primary);
+      background: var(--md-sys-color-surface-container-highest);
+      border-style: dashed;
+      border-color: var(--md-sys-color-outline);
+      color: var(--md-sys-color-on-surface);
       box-shadow: none;
     }
 
     .nav-btn.timer:hover {
-      box-shadow: 0 6px 18px var(--md-sys-color-shadow);
+      box-shadow: 0 12px 28px rgba(17, 17, 26, 0.18);
     }
 
     .badge {
       background: var(--md-sys-color-error);
-      box-shadow: none;
       border-radius: 999px;
+      font-weight: 700;
+      box-shadow: 0 4px 12px rgba(178, 34, 34, 0.25);
+    }
+
+    .mode-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid var(--md-sys-color-outline-variant);
+      background: var(--md-sys-color-surface-container-high);
+      color: var(--md-sys-color-on-surface);
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+
+    .mode-toggle .material-icons {
+      font-size: 20px;
+      color: var(--md-sys-color-primary);
+    }
+
+    .mode-toggle:hover {
+      transform: translateY(-1px);
+      border-color: var(--md-sys-color-primary);
+      box-shadow: 0 10px 24px rgba(17, 17, 26, 0.14);
+    }
+
+    .mode-toggle-label {
+      letter-spacing: 0.06em;
+    }
+
+    .user-info {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      align-items: flex-end;
+    }
+
+    .user-email {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--md-sys-color-on-surface);
+    }
+
+    .clock-section {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 4px;
+      border-left: none;
+      padding-left: 0;
+    }
+
+    .clock {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--md-sys-color-primary);
+      letter-spacing: 0.04em;
+    }
+
+    .date {
+      font-size: 12px;
+      color: var(--md-sys-color-on-surface-variant);
+      letter-spacing: 0.08em;
+    }
+
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      color: var(--md-sys-color-on-surface-variant);
+      font-size: 12px;
+      letter-spacing: 0.08em;
     }
 
     .summary-dashboard {
@@ -1995,9 +2210,21 @@
     }
 
     .summary-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
       background: var(--md-sys-color-surface-container-high);
       color: var(--md-sys-color-primary);
       border-radius: 16px;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.24);
+    }
+
+    .summary-icon .material-symbols-rounded {
+      font-size: 24px;
+      font-variation-settings: 'FILL' 1;
+      color: inherit;
     }
 
     .summary-icon.event {
@@ -2034,6 +2261,43 @@
       color: var(--md-sys-color-on-surface-variant);
       font-size: 12px;
       margin-top: 6px;
+    }
+
+    .summary-meta {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+      color: var(--md-sys-color-on-surface-variant);
+      font-size: 11px;
+      margin-top: 6px;
+    }
+
+    .summary-meta span {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: var(--md-sys-color-surface-container-high);
+      border: 1px solid var(--md-sys-color-outline-variant);
+    }
+
+    .no-unread-message {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      background: var(--md-sys-color-surface-container-low);
+      border-radius: 20px;
+      border: 1px dashed var(--md-sys-color-outline-variant);
+      color: var(--md-sys-color-on-surface-variant);
+      padding: 32px 24px;
+      gap: 12px;
+    }
+
+    .no-unread-message .material-icons {
+      color: var(--md-sys-color-primary);
     }
 
     .main-content {
@@ -2185,77 +2449,180 @@
       color: var(--md-sys-color-primary);
     }
 
-    .chat-list {
-      list-style: none;
+    .chat-board {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .chat-columns {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+    }
+
+    .chat-column {
       display: flex;
       flex-direction: column;
       gap: 16px;
-    }
-
-    #chatList {
-      flex: 1;
-      min-height: 0;
-      overflow-y: auto;
-    }
-
-    .chat-item {
+      padding: 18px;
       background: var(--md-sys-color-surface-container-low);
       border: 1px solid var(--md-sys-color-outline-variant);
+      border-radius: 24px;
+      min-height: 240px;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+    }
+
+    .chat-column-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      color: var(--md-sys-color-on-surface);
+    }
+
+    .chat-column-header .material-symbols-rounded {
+      font-variation-settings: 'FILL' 1;
+      font-size: 22px;
+      color: var(--md-sys-color-primary);
+    }
+
+    .count-chip {
+      margin-left: auto;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(103, 80, 164, 0.12);
+      color: var(--md-sys-color-primary);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .chat-stream {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      overflow-y: auto;
+      max-height: 340px;
+      padding-right: 2px;
+    }
+
+    .chat-stream::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .chat-stream::-webkit-scrollbar-thumb {
+      background: rgba(103, 80, 164, 0.35);
+      border-radius: 999px;
+    }
+
+    .chat-entry {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      background: var(--md-sys-color-surface);
+      border: 1px solid transparent;
       border-radius: 20px;
-      padding: 16px;
-      transition: background 0.2s ease, border 0.2s ease, transform 0.2s ease;
-      cursor: pointer;
+      padding: 14px 16px;
+      box-shadow: 0 8px 20px rgba(17, 17, 26, 0.08);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border 0.2s ease;
     }
 
-    .chat-item:hover {
-      background: var(--md-sys-color-surface-container);
+    .chat-entry:hover {
+      transform: translateY(-2px);
       border-color: var(--md-sys-color-outline);
-      transform: translateY(-1px);
+      box-shadow: 0 18px 32px rgba(17, 17, 26, 0.18);
     }
 
-    .chat-title {
+    .chat-entry-title {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
-      font-weight: 600;
+      gap: 10px;
+      font-weight: 700;
       color: var(--md-sys-color-on-surface);
-      margin-bottom: 8px;
     }
 
-    .chat-snippet {
+    .chat-entry-snippet {
       color: var(--md-sys-color-on-surface-variant);
       font-size: 13px;
       line-height: 1.6;
     }
 
-    .chat-meta {
-      margin-top: 12px;
+    .chat-entry-meta {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      color: var(--md-sys-color-on-surface-variant);
       font-size: 12px;
+      color: var(--md-sys-color-on-surface-variant);
     }
 
-    .chat-open-btn {
-      background: none;
-      border: 1px solid var(--md-sys-color-outline-variant);
-      border-radius: 999px;
-      padding: 6px 12px;
-      color: var(--md-sys-color-primary);
-      font-weight: 600;
-      text-decoration: none;
+    .chat-entry-link {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      cursor: pointer;
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--md-sys-color-outline-variant);
+      color: var(--md-sys-color-primary);
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.2s ease, border 0.2s ease, color 0.2s ease;
     }
 
-    .chat-open-btn:hover {
+    .chat-entry-link:hover {
       background: var(--md-sys-color-primary);
-      color: var(--md-sys-color-on-primary);
       border-color: var(--md-sys-color-primary);
+      color: var(--md-sys-color-on-primary);
+    }
+
+    .chat-empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 28px;
+      border-radius: 24px;
+      border: 1px dashed var(--md-sys-color-outline-variant);
+      background: var(--md-sys-color-surface-container-low);
+      color: var(--md-sys-color-on-surface-variant);
+      text-align: center;
+    }
+
+    .chat-empty-state .material-symbols-rounded {
+      font-variation-settings: 'FILL' 0;
+      font-size: 28px;
+      color: var(--md-sys-color-secondary);
+    }
+
+    .assist-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border-radius: 999px;
+      border: 1px solid var(--md-sys-color-outline-variant);
+      background: var(--md-sys-color-surface);
+      color: var(--md-sys-color-primary);
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s ease, border 0.2s ease, color 0.2s ease;
+    }
+
+    .assist-btn:hover {
+      background: var(--md-sys-color-primary);
+      border-color: var(--md-sys-color-primary);
+      color: var(--md-sys-color-on-primary);
+    }
+
+    .chat-column-empty {
+      border: 1px dashed var(--md-sys-color-outline-variant);
+      border-radius: 18px;
+      padding: 18px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--md-sys-color-on-surface-variant);
+      background: var(--md-sys-color-surface);
     }
 
     footer {
@@ -2309,44 +2676,51 @@
     }
   </style>
 </head>
-<body>
+<body data-theme="light">
   <div class="container">
     <header>
       <div class="header-left">
-        <h1>
-          <span class="logo">◈</span>
-          NexusHub
+        <h1 class="brand">
+          <span class="brand-logo" aria-hidden="true"></span>
+          <span class="brand-text">
+            <span class="brand-name">NexusHub</span>
+            <span class="brand-tagline">Unified workspace intelligence</span>
+          </span>
         </h1>
         <div class="nav-buttons">
           <a href="https://gemini.google.com" target="_blank" class="nav-btn gemini">
-            <span class="material-icons">psychology</span>
+            <img class="nav-icon" src="https://www.gstatic.com/images/branding/product/2x/gemini_color_48dp.png" alt="Gemini" loading="lazy">
             Gemini
           </a>
           <a href="https://mail.google.com" target="_blank" class="nav-btn gmail" id="gmailBtn">
             <span class="badge" id="unreadBadge" style="display: none;">0</span>
-            <span class="material-icons">email</span>
+            <img class="nav-icon" src="https://www.gstatic.com/images/branding/product/2x/gmail_48dp.png" alt="Gmail" loading="lazy">
             Gmail
           </a>
           <a href="https://chat.google.com" target="_blank" class="nav-btn chat">
             <span class="badge" id="chatBadge" style="display: none;">0</span>
-            <span class="material-icons">chat</span>
+            <img class="nav-icon" src="https://www.gstatic.com/images/branding/product/2x/chat_2020q4_48dp.png" alt="Chat" loading="lazy">
             Chat
           </a>
           <a href="https://calendar.google.com" target="_blank" class="nav-btn calendar">
-            <span class="material-icons">event</span>
+            <img class="nav-icon" src="https://www.gstatic.com/images/branding/product/2x/calendar_48dp.png" alt="Calendar" loading="lazy">
             Calendar
           </a>
           <a href="https://drive.google.com" target="_blank" class="nav-btn drive">
-            <span class="material-icons">cloud</span>
+            <img class="nav-icon" src="https://www.gstatic.com/images/branding/product/2x/drive_2020q4_48dp.png" alt="Drive" loading="lazy">
             Drive
           </a>
           <button type="button" class="nav-btn timer" onclick="openTimerWindow()">
-            <span class="material-icons">timer</span>
+            <span class="material-symbols-rounded">timer</span>
             タイマー
           </button>
         </div>
       </div>
       <div class="header-right">
+        <button type="button" class="mode-toggle" id="themeToggle" aria-label="テーマを切り替え">
+          <span class="material-icons" id="themeToggleIcon">dark_mode</span>
+          <span class="mode-toggle-label" id="themeToggleLabel">ダーク</span>
+        </button>
         <div class="user-info">
           <div class="user-email" id="userEmail">読み込み中...</div>
         </div>
@@ -2359,7 +2733,7 @@
 
     <div class="summary-dashboard">
       <div class="summary-item" id="gmailSummary">
-        <div class="summary-icon email">📧</div>
+        <div class="summary-icon email"><span class="material-symbols-rounded">mail</span></div>
         <div class="summary-content">
           <div class="summary-label">未読メール</div>
           <div class="summary-value" id="summaryUnreadCount">
@@ -2371,7 +2745,7 @@
       </div>
 
       <div class="summary-item clickable" id="chatSummary" onclick="scrollToChat()">
-        <div class="summary-icon chat">💬</div>
+        <div class="summary-icon chat"><span class="material-symbols-rounded">forum</span></div>
         <div class="summary-content">
           <div class="summary-label">未読チャット</div>
           <div class="summary-value" id="summaryChatCount">
@@ -2379,11 +2753,12 @@
             <span class="summary-unit">件</span>
           </div>
           <div class="summary-subtext" id="summaryChatLatest"></div>
+          <div class="summary-meta" id="summaryChatBreakdown"></div>
         </div>
       </div>
 
       <div class="summary-item clickable" id="todayEventSummary" onclick="showTodayEvents()">
-        <div class="summary-icon event">📅</div>
+        <div class="summary-icon event"><span class="material-symbols-rounded">event</span></div>
         <div class="summary-content">
           <div class="summary-label">本日の予定</div>
           <div class="summary-value" id="summaryEventCount">
@@ -2394,7 +2769,7 @@
       </div>
 
       <div class="summary-item clickable" id="nextEventSummary" onclick="showNextEventDetail()">
-        <div class="summary-icon next">⏰</div>
+        <div class="summary-icon next"><span class="material-symbols-rounded">schedule</span></div>
         <div class="summary-content">
           <div class="summary-label">次の予定</div>
           <div class="summary-value" id="summaryNextEvent">予定なし</div>
@@ -2414,8 +2789,36 @@
 
         <div class="info-card chat-card" id="chatCard">
           <h2><span class="material-icons">forum</span>未読チャット</h2>
-          <div id="chatList">
-            <div class="loading-spinner"><div class="spinner"></div><p>読み込み中...</p></div>
+          <div class="chat-board" id="chatList">
+            <div class="chat-columns">
+              <section class="chat-column" aria-labelledby="chatDmHeading">
+                <div class="chat-column-header" id="chatDmHeading">
+                  <span class="material-symbols-rounded">person</span>
+                  <span>ダイレクトメッセージ</span>
+                  <span class="count-chip" id="chatDmCount">0</span>
+                </div>
+                <div class="chat-stream" id="chatDmList">
+                  <div class="loading-spinner"><div class="spinner"></div><p>読み込み中...</p></div>
+                </div>
+              </section>
+              <section class="chat-column" aria-labelledby="chatSpaceHeading">
+                <div class="chat-column-header" id="chatSpaceHeading">
+                  <span class="material-symbols-rounded">groups</span>
+                  <span>スペース</span>
+                  <span class="count-chip" id="chatSpaceCount">0</span>
+                </div>
+                <div class="chat-stream" id="chatSpaceList">
+                  <div class="loading-spinner"><div class="spinner"></div><p>読み込み中...</p></div>
+                </div>
+              </section>
+            </div>
+            <div class="chat-empty-state" id="chatEmptyState" style="display: none;">
+              <span class="material-symbols-rounded">mark_chat_read</span>
+              <p>最新の未読チャットはありません。</p>
+              <button class="assist-btn" type="button" onclick="window.open('https://chat.google.com', '_blank')">
+                <span class="material-symbols-rounded">open_in_new</span>Chatを開く
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -2734,6 +3137,100 @@
     let todayEventsData = [];
     let nextEventData = null;
 
+    const THEME_STORAGE_KEY = 'nexushub-theme';
+    const themeToggleButton = document.getElementById('themeToggle');
+    const themeToggleIcon = document.getElementById('themeToggleIcon');
+    const themeToggleLabel = document.getElementById('themeToggleLabel');
+    const prefersDarkMediaQuery = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+
+    function syncThemeToggle(theme) {
+      if (!themeToggleButton) return;
+      if (theme === 'dark') {
+        if (themeToggleIcon) themeToggleIcon.textContent = 'light_mode';
+        if (themeToggleLabel) themeToggleLabel.textContent = 'ライト';
+      } else {
+        if (themeToggleIcon) themeToggleIcon.textContent = 'dark_mode';
+        if (themeToggleLabel) themeToggleLabel.textContent = 'ダーク';
+      }
+    }
+
+    function applyTheme(theme, options) {
+      const root = document.body;
+      if (!root) return;
+      const normalized = theme === 'dark' ? 'dark' : 'light';
+      root.setAttribute('data-theme', normalized);
+      syncThemeToggle(normalized);
+      if (options && options.persist) {
+        try {
+          localStorage.setItem(THEME_STORAGE_KEY, normalized);
+        } catch (err) {
+          console.warn('テーマ設定を保存できませんでした:', err);
+        }
+      }
+    }
+
+    function getStoredTheme() {
+      try {
+        const stored = localStorage.getItem(THEME_STORAGE_KEY);
+        if (stored === 'light' || stored === 'dark') {
+          return stored;
+        }
+      } catch (err) {
+        console.warn('テーマ設定の読み込みに失敗しました:', err);
+      }
+      return null;
+    }
+
+    function resolvePreferredTheme() {
+      const stored = getStoredTheme();
+      if (stored) {
+        return stored;
+      }
+      if (prefersDarkMediaQuery && typeof prefersDarkMediaQuery.matches === 'boolean') {
+        return prefersDarkMediaQuery.matches ? 'dark' : 'light';
+      }
+      return 'light';
+    }
+
+    function initializeTheme() {
+      const initialTheme = resolvePreferredTheme();
+      applyTheme(initialTheme);
+
+      if (themeToggleButton) {
+        themeToggleButton.addEventListener('click', function() {
+          const currentTheme = document.body.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+          const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
+          applyTheme(nextTheme, { persist: true });
+        });
+      }
+
+      if (prefersDarkMediaQuery) {
+        const handleMediaQueryChange = function(event) {
+          const stored = getStoredTheme();
+          if (stored) {
+            syncThemeToggle(stored);
+            return;
+          }
+          applyTheme(event.matches ? 'dark' : 'light');
+        };
+
+        if (typeof prefersDarkMediaQuery.addEventListener === 'function') {
+          prefersDarkMediaQuery.addEventListener('change', handleMediaQueryChange);
+        } else if (typeof prefersDarkMediaQuery.addListener === 'function') {
+          prefersDarkMediaQuery.addListener(handleMediaQueryChange);
+        }
+      }
+
+      window.addEventListener('storage', function(event) {
+        if (event.key === THEME_STORAGE_KEY) {
+          const nextTheme = event.newValue === 'dark' ? 'dark' : 'light';
+          applyTheme(nextTheme);
+        }
+      });
+    }
+
+    initializeTheme();
+
     function updateClock() {
       const now = new Date();
       const hours = String(now.getHours()).padStart(2, '0');
@@ -2761,10 +3258,47 @@
     setInterval(updateClock, 1000);
 
     function openTimerWindow() {
-      const timerUrl = new URL(window.location.href);
-      timerUrl.searchParams.set('page', 'timer');
-      timerUrl.hash = '';
-      window.open(timerUrl.toString(), '_blank', 'noopener=yes,noreferrer=yes,width=420,height=520');
+      const features = 'width=420,height=560,resizable=yes,scrollbars=yes';
+      let placeholderWindow = null;
+
+      try {
+        placeholderWindow = window.open('', 'nexushub-timer', features);
+      } catch (error) {
+        placeholderWindow = null;
+      }
+
+      const handleFailure = function(message) {
+        if (placeholderWindow && typeof placeholderWindow.close === 'function') {
+          placeholderWindow.close();
+        }
+        alert(message || 'タイマーを開けませんでした。もう一度お試しください。');
+      };
+
+      google.script.run
+        .withSuccessHandler(function(result) {
+          if (!result || !result.success || !result.url) {
+            handleFailure('タイマーURLを取得できませんでした。');
+            return;
+          }
+
+          if (placeholderWindow) {
+            placeholderWindow.location = result.url;
+            if (typeof placeholderWindow.focus === 'function') {
+              placeholderWindow.focus();
+            }
+          } else {
+            const timerWindow = window.open(result.url, 'nexushub-timer', features);
+            if (timerWindow && typeof timerWindow.focus === 'function') {
+              timerWindow.focus();
+            } else {
+              alert('ポップアップがブロックされました。タイマーを開くには許可してください。');
+            }
+          }
+        })
+        .withFailureHandler(function() {
+          handleFailure('タイマーウィンドウの起動に失敗しました。');
+        })
+        .getTimerUrl();
     }
 
     function scrollToChat() {
@@ -3015,21 +3549,34 @@
     function loadChatData() {
       google.script.run
         .withSuccessHandler(function(chatData) {
-          const chatList = document.getElementById('chatList');
           const summaryCountElement = document.getElementById('summaryChatCount');
           const summaryLatestElement = document.getElementById('summaryChatLatest');
+          const breakdownElement = document.getElementById('summaryChatBreakdown');
+          const chatBadge = document.getElementById('chatBadge');
+          const dmCountLabel = document.getElementById('chatDmCount');
+          const spaceCountLabel = document.getElementById('chatSpaceCount');
+          const dmList = document.getElementById('chatDmList');
+          const spaceList = document.getElementById('chatSpaceList');
+          const emptyState = document.getElementById('chatEmptyState');
+
+          const totalUnread = chatData && typeof chatData.totalUnread === 'number' ? chatData.totalUnread : 0;
+          const directCount = chatData && typeof chatData.directCount === 'number' ? chatData.directCount : 0;
+          const spaceCount = chatData && typeof chatData.spaceCount === 'number' ? chatData.spaceCount : 0;
 
           if (summaryCountElement && summaryCountElement.querySelector) {
             const spanElement = summaryCountElement.querySelector('span');
             if (spanElement) {
-              spanElement.textContent = chatData && typeof chatData.unreadCount === 'number' ? chatData.unreadCount : 0;
+              spanElement.textContent = totalUnread;
             }
           }
 
-          const chatBadge = document.getElementById('chatBadge');
+          if (breakdownElement) {
+            breakdownElement.innerHTML = '<span>DM ' + directCount + '件</span><span>スペース ' + spaceCount + '件</span>';
+          }
+
           if (chatBadge) {
-            if (chatData && chatData.unreadCount > 0) {
-              chatBadge.textContent = chatData.unreadCount > 99 ? '99+' : chatData.unreadCount;
+            if (totalUnread > 0) {
+              chatBadge.textContent = totalUnread > 99 ? '99+' : totalUnread;
               chatBadge.style.display = 'block';
             } else {
               chatBadge.style.display = 'none';
@@ -3037,81 +3584,127 @@
           }
 
           if (!chatData || !chatData.success) {
-            if (chatList) {
-              chatList.innerHTML = '<p style="text-align: center; color: #B3261E; padding: 20px;">チャット情報の取得に失敗しました</p>';
-            }
             if (summaryLatestElement) {
               summaryLatestElement.textContent = 'チャット情報の取得に失敗しました';
             }
+            if (breakdownElement) {
+              breakdownElement.innerHTML = '<span>DM 0件</span><span>スペース 0件</span>';
+            }
+            if (dmCountLabel) dmCountLabel.textContent = '0';
+            if (spaceCountLabel) spaceCountLabel.textContent = '0';
+            if (dmList) dmList.innerHTML = '<div class="chat-column-empty">チャット情報の取得に失敗しました</div>';
+            if (spaceList) spaceList.innerHTML = '<div class="chat-column-empty">チャット情報の取得に失敗しました</div>';
+            if (emptyState) {
+              emptyState.style.display = 'flex';
+              const message = emptyState.querySelector('p');
+              if (message) {
+                message.textContent = 'チャット情報の取得に失敗しました。';
+              }
+            }
             return;
           }
 
-          if (chatData.unreadCount === 0) {
-            if (summaryLatestElement) {
+          if (dmCountLabel) dmCountLabel.textContent = String(directCount);
+          if (spaceCountLabel) spaceCountLabel.textContent = String(spaceCount);
+
+          if (summaryLatestElement) {
+            if (chatData.latestConversation) {
+              summaryLatestElement.textContent = '最新: ' + truncateText(chatData.latestConversation.title || chatData.latestConversation.author || 'チャット', 24);
+            } else {
               summaryLatestElement.textContent = '最新の未読はありません';
             }
-            if (chatList) {
-              chatList.innerHTML = '<div class="no-unread-message"><span class="material-icons">mark_chat_read</span><p>未読チャットはありません</p></div>';
+          }
+
+          const renderChatEntries = function(container, items, emptyMessage) {
+            if (!container) return;
+            if (!items || items.length === 0) {
+              container.innerHTML = '<div class="chat-column-empty">' + emptyMessage + '</div>';
+              return;
             }
-            return;
-          }
 
-          if (summaryLatestElement && chatData.conversations && chatData.conversations.length > 0) {
-            const firstChat = chatData.conversations[0];
-            summaryLatestElement.textContent = '最新: ' + truncateText(firstChat.title || firstChat.author || 'チャット', 24);
-          }
-
-          if (!chatList) return;
-
-          if (chatData.conversations && chatData.conversations.length > 0) {
-            let chatHTML = '<ul class="chat-list">';
-
-            chatData.conversations.forEach(function(conversation) {
+            let entries = '';
+            items.forEach(function(conversation) {
               const lastUpdated = new Date(conversation.lastUpdated);
               const relativeTime = formatRelativeTime(lastUpdated);
               const title = escapeHtml(conversation.title || 'チャット');
               const author = escapeHtml(conversation.author || 'メンバー');
               const snippet = escapeHtml(conversation.preview || 'メッセージは表示できません');
-              const permalink = conversation.permalink ? conversation.permalink : '';
+              const permalink = conversation.permalink ? encodeURI(conversation.permalink) : '';
 
-              chatHTML += '<li class="chat-item">';
-              chatHTML += '<div class="chat-title">';
-              chatHTML += '<span>' + title + '</span>';
-              chatHTML += '<span>' + relativeTime + '</span>';
-              chatHTML += '</div>';
-              chatHTML += '<div class="chat-snippet">' + snippet + '</div>';
-              chatHTML += '<div class="chat-meta">';
-              chatHTML += '<span>' + author + '</span>';
+              entries += '<article class="chat-entry">';
+              entries += '<div class="chat-entry-title"><span>' + title + '</span><span>' + relativeTime + '</span></div>';
+              entries += '<div class="chat-entry-snippet">' + snippet + '</div>';
+              entries += '<div class="chat-entry-meta">';
+              entries += '<span>' + author + '</span>';
               if (permalink) {
-                chatHTML += '<a class="chat-open-btn" href="' + encodeURI(permalink) + '" target="_blank" rel="noopener">Chatを開く</a>';
+                entries += '<a class="chat-entry-link" href="' + permalink + '" target="_blank" rel="noopener">Chatを開く</a>';
+              } else {
+                entries += '<span></span>';
               }
-              chatHTML += '</div>';
-              chatHTML += '</li>';
+              entries += '</div>';
+              entries += '</article>';
             });
 
-            chatHTML += '</ul>';
-            chatList.innerHTML = chatHTML;
-          } else {
-            chatList.innerHTML = '<div class="no-unread-message"><span class="material-icons">chat_bubble_outline</span><p>チャット情報を表示できません</p></div>';
+            container.innerHTML = entries;
+          };
+
+          if (totalUnread === 0) {
+            if (emptyState) {
+              emptyState.style.display = 'flex';
+              const message = emptyState.querySelector('p');
+              if (message) {
+                message.textContent = '最新の未読チャットはありません。';
+              }
+            }
+            renderChatEntries(dmList, [], '未読のダイレクトメッセージはありません');
+            renderChatEntries(spaceList, [], '未読のスペースはありません');
+            return;
           }
+
+          if (emptyState) {
+            emptyState.style.display = 'none';
+          }
+
+          renderChatEntries(dmList, chatData.directMessages, '未読のダイレクトメッセージはありません');
+          renderChatEntries(spaceList, chatData.spaces, '未読のスペースはありません');
         })
         .withFailureHandler(function() {
-          const chatList = document.getElementById('chatList');
-          if (chatList) {
-            chatList.innerHTML = '<p style="text-align: center; color: #B3261E; padding: 20px;">チャット情報の取得に失敗しました</p>';
-          }
-          const summaryLatestElement = document.getElementById('summaryChatLatest');
-          if (summaryLatestElement) {
-            summaryLatestElement.textContent = 'チャット情報の取得に失敗しました';
-          }
           const summaryCountElement = document.getElementById('summaryChatCount');
+          const summaryLatestElement = document.getElementById('summaryChatLatest');
+          const breakdownElement = document.getElementById('summaryChatBreakdown');
+          const dmList = document.getElementById('chatDmList');
+          const spaceList = document.getElementById('chatSpaceList');
+          const dmCountLabel = document.getElementById('chatDmCount');
+          const spaceCountLabel = document.getElementById('chatSpaceCount');
+          const emptyState = document.getElementById('chatEmptyState');
+          const chatBadge = document.getElementById('chatBadge');
+
           if (summaryCountElement && summaryCountElement.querySelector) {
             const spanElement = summaryCountElement.querySelector('span');
             if (spanElement) {
               spanElement.textContent = 0;
             }
           }
-          const chatBadge = document.getElementById('chatBadge');
+
+          if (summaryLatestElement) {
+            summaryLatestElement.textContent = 'チャット情報の取得に失敗しました';
+          }
+
+          if (breakdownElement) {
+            breakdownElement.innerHTML = '<span>DM 0件</span><span>スペース 0件</span>';
+          }
+
+          if (dmCountLabel) dmCountLabel.textContent = '0';
+          if (spaceCountLabel) spaceCountLabel.textContent = '0';
+          if (dmList) dmList.innerHTML = '<div class="chat-column-empty">チャット情報の取得に失敗しました</div>';
+          if (spaceList) spaceList.innerHTML = '<div class="chat-column-empty">チャット情報の取得に失敗しました</div>';
+          if (emptyState) {
+            emptyState.style.display = 'flex';
+            const message = emptyState.querySelector('p');
+            if (message) {
+              message.textContent = 'チャット情報の取得に失敗しました。';
+            }
+          }
           if (chatBadge) {
             chatBadge.style.display = 'none';
           }
