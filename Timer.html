@@ -10,15 +10,31 @@
     :root {
       color-scheme: light;
       --md-primary: #6750A4;
-      --md-on-primary: #ffffff;
-      --md-surface: #fef7ff;
-      --md-surface-container: #f3edf7;
-      --md-outline: #cac4d0;
-      --md-on-surface: #1d1b20;
-      --md-on-surface-variant: #49454f;
+      --md-on-primary: #FFFFFF;
+      --md-surface: #FEF7FF;
+      --md-surface-container: #F3EDF7;
+      --md-surface-container-high: #ECE6F0;
+      --md-outline: #CAC4D0;
+      --md-on-surface: #1D1B20;
+      --md-on-surface-variant: #49454F;
       --md-shadow: rgba(29, 27, 32, 0.14);
-      --md-success: #2e7d32;
-      --md-error: #b3261e;
+      --md-success: #2E7D32;
+      --md-error: #B3261E;
+    }
+
+    body[data-theme="dark"] {
+      color-scheme: dark;
+      --md-primary: #D0BCFF;
+      --md-on-primary: #381E72;
+      --md-surface: #141218;
+      --md-surface-container: #211F26;
+      --md-surface-container-high: #2B2930;
+      --md-outline: #49454F;
+      --md-on-surface: #E6E0E9;
+      --md-on-surface-variant: #CAC4D0;
+      --md-shadow: rgba(0, 0, 0, 0.4);
+      --md-success: #81C995;
+      --md-error: #F2B8B5;
     }
 
     * {
@@ -95,15 +111,22 @@
       border: 1px solid var(--md-outline);
       padding: 10px;
       font-size: 16px;
-      background: #fff;
+      background: var(--md-surface);
       color: var(--md-on-surface);
       text-align: center;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
     }
 
     input[type="number"]::-webkit-outer-spin-button,
     input[type="number"]::-webkit-inner-spin-button {
       -webkit-appearance: none;
       margin: 0;
+    }
+
+    input[type="number"]:focus {
+      outline: none;
+      border-color: var(--md-primary);
+      box-shadow: 0 0 0 3px rgba(103, 80, 164, 0.2);
     }
 
     .quick-buttons {
@@ -155,7 +178,7 @@
     }
 
     .md-button.secondary {
-      background: #fff;
+      background: var(--md-surface);
       color: var(--md-on-surface);
       border: 1px solid var(--md-outline);
     }
@@ -217,7 +240,7 @@
     }
   </style>
 </head>
-<body>
+<body data-theme="light">
   <main class="timer-surface">
     <div class="timer-header">
       <h1><span class="material-icons">timer</span>カスタムタイマー</h1>
@@ -280,6 +303,63 @@
     const timeDisplay = document.getElementById('timeDisplay');
     const progressBar = document.getElementById('progressBar');
     const notifyToggle = document.getElementById('notifyToggle');
+
+    const THEME_STORAGE_KEY = 'nexushub-theme';
+    const themePreferenceQuery = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+
+    function applyPreferredTheme(theme) {
+      const normalized = theme === 'dark' ? 'dark' : 'light';
+      document.body.setAttribute('data-theme', normalized);
+    }
+
+    function resolveTimerTheme() {
+      try {
+        const stored = localStorage.getItem(THEME_STORAGE_KEY);
+        if (stored === 'dark' || stored === 'light') {
+          return stored;
+        }
+      } catch (error) {
+        console.warn('テーマ設定の読み込みに失敗しました:', error);
+      }
+      if (themePreferenceQuery && typeof themePreferenceQuery.matches === 'boolean') {
+        return themePreferenceQuery.matches ? 'dark' : 'light';
+      }
+      return 'light';
+    }
+
+    function syncThemeFromPreference() {
+      applyPreferredTheme(resolveTimerTheme());
+    }
+
+    syncThemeFromPreference();
+
+    window.addEventListener('focus', syncThemeFromPreference);
+    window.addEventListener('storage', function(event) {
+      if (event.key === THEME_STORAGE_KEY) {
+        syncThemeFromPreference();
+      }
+    });
+
+    if (themePreferenceQuery) {
+      const handleThemeChange = function() {
+        const stored = (() => {
+          try {
+            return localStorage.getItem(THEME_STORAGE_KEY);
+          } catch (err) {
+            return null;
+          }
+        })();
+        if (!stored) {
+          syncThemeFromPreference();
+        }
+      };
+
+      if (typeof themePreferenceQuery.addEventListener === 'function') {
+        themePreferenceQuery.addEventListener('change', handleThemeChange);
+      } else if (typeof themePreferenceQuery.addListener === 'function') {
+        themePreferenceQuery.addListener(handleThemeChange);
+      }
+    }
 
     let countdownInterval = null;
     let remainingMs = 0;
@@ -426,7 +506,7 @@
       if ('Notification' in window && Notification.permission === 'granted') {
         new Notification('タイマー', {
           body: '設定した時間が経過しました。',
-          icon: 'https://img.icons8.com/fluency/96/hub.png'
+          icon: 'https://www.gstatic.com/images/branding/product/2x/googleg_48dp.png'
         });
       } else {
         alert('時間になりました！');
