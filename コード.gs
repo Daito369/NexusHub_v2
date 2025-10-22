@@ -95,9 +95,8 @@ function getGmailData() {
 
 function getChatData() {
   try {
-    const unreadChatThreads = GmailApp.search('in:chats is:unread', 0, 100);
-    const directMessages = [];
-    const spaceMessages = [];
+    const unreadChatThreads = GmailApp.search('in:chats is:unread', 0, 50);
+    const conversations = [];
 
     unreadChatThreads.forEach(function(thread) {
       const messages = thread.getMessages();
@@ -191,14 +190,12 @@ function getChatData() {
       return b.lastUpdated - a.lastUpdated;
     });
 
+    const unreadCount = Math.max(unreadChatThreads.length, conversations.length);
+
     return {
       success: true,
-      totalUnread: directMessages.length + spaceMessages.length,
-      directCount: directMessages.length,
-      spaceCount: spaceMessages.length,
-      directMessages: directMessages.slice(0, 20),
-      spaces: spaceMessages.slice(0, 20),
-      latestConversation: combined.length > 0 ? combined[0] : null
+      unreadCount: unreadCount,
+      conversations: conversations.slice(0, 20)
     };
   } catch (error) {
     Logger.log('Error fetching chat data: ' + error.toString());

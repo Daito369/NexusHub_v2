@@ -2023,38 +2023,9 @@
       background: var(--nav-accent);
     }
 
-    .nav-btn .material-icons,
-    .nav-btn .material-symbols-rounded {
+    .nav-btn .material-icons {
       font-size: 20px;
       color: var(--nav-accent);
-    }
-
-    .material-symbols-rounded {
-      font-family: 'Material Symbols Rounded';
-      font-weight: normal;
-      font-style: normal;
-      font-size: 20px;
-      line-height: 1;
-      letter-spacing: normal;
-      text-transform: none;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      vertical-align: middle;
-      -webkit-font-feature-settings: 'liga';
-      -webkit-font-smoothing: antialiased;
-    }
-
-    .nav-btn .nav-icon {
-      width: 22px;
-      height: 22px;
-      border-radius: 6px;
-      box-shadow: 0 2px 6px rgba(32, 33, 36, 0.16);
-    }
-
-    body[data-theme="dark"] .nav-btn .nav-icon {
-      box-shadow: none;
-      filter: brightness(1.1);
     }
 
     .nav-btn:hover {
@@ -2261,26 +2232,6 @@
       color: var(--md-sys-color-on-surface-variant);
       font-size: 12px;
       margin-top: 6px;
-    }
-
-    .summary-meta {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      align-items: center;
-      color: var(--md-sys-color-on-surface-variant);
-      font-size: 11px;
-      margin-top: 6px;
-    }
-
-    .summary-meta span {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      padding: 4px 10px;
-      border-radius: 999px;
-      background: var(--md-sys-color-surface-container-high);
-      border: 1px solid var(--md-sys-color-outline-variant);
     }
 
     .no-unread-message {
@@ -3258,47 +3209,16 @@
     setInterval(updateClock, 1000);
 
     function openTimerWindow() {
+      const timerUrl = new URL(window.location.href);
+      timerUrl.searchParams.set('page', 'timer');
+      timerUrl.hash = '';
       const features = 'width=420,height=560,resizable=yes,scrollbars=yes';
-      let placeholderWindow = null;
-
-      try {
-        placeholderWindow = window.open('', 'nexushub-timer', features);
-      } catch (error) {
-        placeholderWindow = null;
+      const timerWindow = window.open(timerUrl.toString(), 'nexushub-timer', features);
+      if (timerWindow && typeof timerWindow.focus === 'function') {
+        timerWindow.focus();
+      } else {
+        alert('ポップアップがブロックされました。タイマーを開くには許可してください。');
       }
-
-      const handleFailure = function(message) {
-        if (placeholderWindow && typeof placeholderWindow.close === 'function') {
-          placeholderWindow.close();
-        }
-        alert(message || 'タイマーを開けませんでした。もう一度お試しください。');
-      };
-
-      google.script.run
-        .withSuccessHandler(function(result) {
-          if (!result || !result.success || !result.url) {
-            handleFailure('タイマーURLを取得できませんでした。');
-            return;
-          }
-
-          if (placeholderWindow) {
-            placeholderWindow.location = result.url;
-            if (typeof placeholderWindow.focus === 'function') {
-              placeholderWindow.focus();
-            }
-          } else {
-            const timerWindow = window.open(result.url, 'nexushub-timer', features);
-            if (timerWindow && typeof timerWindow.focus === 'function') {
-              timerWindow.focus();
-            } else {
-              alert('ポップアップがブロックされました。タイマーを開くには許可してください。');
-            }
-          }
-        })
-        .withFailureHandler(function() {
-          handleFailure('タイマーウィンドウの起動に失敗しました。');
-        })
-        .getTimerUrl();
     }
 
     function scrollToChat() {
@@ -3604,8 +3524,20 @@
             return;
           }
 
-          if (dmCountLabel) dmCountLabel.textContent = String(directCount);
-          if (spaceCountLabel) spaceCountLabel.textContent = String(spaceCount);
+          if (chatData.unreadCount > 0 && (!chatData.conversations || chatData.conversations.length === 0)) {
+            if (summaryLatestElement) {
+              summaryLatestElement.textContent = '未読チャットがあります（詳細取得不可）';
+            }
+            if (chatList) {
+              chatList.innerHTML = '<div class="no-unread-message"><span class="material-icons">support_agent</span><p>未読チャットがありますが詳細を取得できませんでした。Chatを開いて確認してください。</p></div>';
+            }
+            return;
+          }
+
+          if (summaryLatestElement && chatData.conversations && chatData.conversations.length > 0) {
+            const firstChat = chatData.conversations[0];
+            summaryLatestElement.textContent = '最新: ' + truncateText(firstChat.title || firstChat.author || 'チャット', 24);
+          }
 
           if (summaryLatestElement) {
             if (chatData.latestConversation) {
